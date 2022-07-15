@@ -22,7 +22,9 @@ const Game = (props)=>{
 				setCurrentChar(prev=> {return prev + 1});
 			}
 		}else if(elem.key ==='Backspace'){
-			setCurrentChar(prev=> {return prev -1});
+			if(currentChar>0){
+				setCurrentChar(prev=> {return prev -1});
+			}
 		}
 	}
 
