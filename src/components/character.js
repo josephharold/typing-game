@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { isElementOfType } from 'react-dom/test-utils';
 
 /* 
 Character receives props:
@@ -8,8 +9,18 @@ Character receives props:
 */ 
 const Character = (props)=>{
 	let style = {};
-	props.isActive === true? style ={backgroundColor: 'black', color: 'white'} : style={};
-	props.isCorrect === true? style= {color: 'red', ...style}: style = style;
+	if(props.isCorrect=== null){
+		style.color = 'black'	
+	}else if(props.isCorrect=== true){
+		style.color = 'blue';
+	}else if(props.isCorrect ===false){
+		style.color = 'red';
+	}
+
+	if(props.isActive=== true){
+		style.backgroundColor = 'black';
+		style.color= 'white';
+	}
 	return(
 		<span style={style}>{props.children}</span>	
 	)

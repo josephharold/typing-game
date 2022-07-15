@@ -10,20 +10,17 @@ sampleSet = sampleSet.split('').map((char, isCorrect)=>{
 const Game = (props)=>{
 	const [wordSet, setWordSet] = useState(sampleSet);	
 	const [currentChar, setCurrentChar] = useState(0);
-
-	useEffect(() => {
-		console.log(wordSet[currentChar])
-	}, [currentChar]);
-
 	const handleKeyDown = (elem)=>{
 		if(elem.key != 'Backspace'){
-			let isCorrect = checkMatch(elem.key);
-			let updatedWordSet = wordSet.map((elem)=>{
-				return elem
-			})	
-			updatedWordSet[currentChar].isCorrect = isCorrect;
-			setWordSet(updatedWordSet);
-			setCurrentChar(prev=> {return prev + 1});
+			if(currentChar < wordSet.length){
+				let isCorrect = checkMatch(elem.key);
+				let updatedWordSet = wordSet.map((elem)=>{
+					return elem
+				})	
+				updatedWordSet[currentChar].isCorrect = isCorrect;
+				setWordSet(updatedWordSet);
+				setCurrentChar(prev=> {return prev + 1});
+			}
 		}else if(elem.key ==='Backspace'){
 			setCurrentChar(prev=> {return prev -1});
 		}
@@ -43,16 +40,17 @@ const Game = (props)=>{
 		border: '1px solid gray',
 		color: 'blue'
 	}
-
-	let wordSetDisplay = wordSet.map(
-		(entry, index)=>{
-			return <Character
-				isActive={entry.char===wordSet[currentChar].char && index === currentChar}
-				isCorrect={entry.isCorrect}
-				children={entry.char}
-			/>
-		}
-	).flat();
+	if(currentChar < wordSet.length){
+		var wordSetDisplay = wordSet.map(
+			(entry, index)=>{
+				return <Character
+					isActive={entry.char===wordSet[currentChar].char && index === currentChar}
+					isCorrect={entry.isCorrect}
+					children={entry.char}
+				/>
+			}
+		).flat();
+	}
 
 	return(
 		<div 
