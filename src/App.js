@@ -1,5 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import { Game } from './components/Game';
+// import {Game} from './components/sample';
 const App = (props)=>{
 	return(
 	<>

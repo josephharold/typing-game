@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { isElementOfType } from 'react-dom/test-utils';
 
 /* 
 Character receives props:

@@ -1,70 +1,140 @@
-import words from 'random-words';
-import React ,{useState,useRef, useEffect} from 'react';
-import {Character} from './character';
-let sampleSet = 'the quick brown fox jumps over the lazy dog';
-
-sampleSet = sampleSet.split('').map((char, isCorrect)=>{
-	return {char: char, isCorrect: null}
-});
-
-const Game = (props)=>{
-	const [wordSet, setWordSet] = useState(sampleSet);	
+import React ,{useState, useEffect} from 'react';
+import randomWords from 'random-words';
+import { Character } from './character';
+import { Word } from './word';
+const Game = ()=>{
+	const [wordSet, setWordSet] = useState([]);
 	const [currentChar, setCurrentChar] = useState(0);
-	const handleKeyDown = (elem)=>{
-		if(elem.key != 'Backspace'){
-			if(currentChar < wordSet.length){
-				let isCorrect = checkMatch(elem.key);
-				let updatedWordSet = wordSet.map((elem)=>{
-					return elem
-				})	
-				updatedWordSet[currentChar].isCorrect = isCorrect;
+	const [currentWord, setCurrentWord] = useState(0);
+	const [moveStack, setMoveStack] = useState([]);
+	const [score, setScore] = useState(0);
+	useEffect(() => {
+		let fetchSet = randomWords(50);
+		let set = fetchSet.map(word=>{
+			return word.split('').map(char=>{
+				return {char: char, isCorrect: null}
+			})
+		})
+		setWordSet(set);
+	}, []);
+	useEffect(()=>{
+		// console.log('curr char:', currentChar, moveStack);
+		console.log('word score: ', score);
+	});
+	const handleKeyDown = (event)=>{
+		const key = event.key;
+		// ! REFACTOR ON WORDSET UPDATE
+		if(isCharacter(key) && isNotExceeding(key)){
+			if(checkMatch(key)){
+				let updatedWordSet = [...wordSet];
+				updatedWordSet[currentWord][currentChar].isCorrect = true;
 				setWordSet(updatedWordSet);
-				setCurrentChar(prev=> {return prev + 1});
+			}else{
+				let updatedWordSet = [...wordSet];
+				updatedWordSet[currentWord][currentChar].isCorrect = true;
+				setWordSet(updatedWordSet);
 			}
-		}else if(elem.key ==='Backspace'){
-			if(currentChar>0){
-				setCurrentChar(prev=> {return prev -1});
+			checkMatch(key);
+			handleMoveStack(key);
+			setCurrentChar(prev=> prev + 1);
+		}else if(isBackspace(key) && isNotExceeding(key)){
+			let updatedWordSet = [...wordSet];
+			updatedWordSet[currentWord][currentChar].isCorrect = null;
+			setWordSet(updatedWordSet);
+			handleMoveStack(key);
+			setCurrentChar(prev=>prev-1);
+		}else if(key=== ' ' && isNotExceeding(key)){
+			if(isCorrectWord()){
+				setScore(prev=> prev+1);
 			}
+			nextWord();
+			handleMoveStack(key);
 		}
 	}
-
-	const checkMatch = (keyPressed)=>{
-		if(wordSet[currentChar].char=== keyPressed){
+	const isNotExceeding = ()=>{
+		if(currentChar <= wordSet[currentWord].length && currentChar >=0){
 			return true
 		}else{
 			return false
 		}
 	}
 
-	const style={
-		width: '400px',
-		height: '400px',
-		border: '1px solid gray',
-		color: 'blue'
-	}
-	if(currentChar < wordSet.length){
-		var wordSetDisplay = wordSet.map(
-			(entry, index)=>{
-				return <Character
-					isActive={entry.char===wordSet[currentChar].char && index === currentChar}
-					isCorrect={entry.isCorrect}
-					children={entry.char}
-				/>
-			}
-		).flat();
+	const handleMoveStack = (keyPressed)=>{
+		let updatedMoveStack = [...moveStack];
+		if(keyPressed === ' '){
+			setMoveStack([]);
+		}else if(keyPressed === 'Backspace'){
+			updatedMoveStack.pop();
+			setMoveStack(updatedMoveStack);
+		}else if(keyPressed.length===1){
+			updatedMoveStack.push(keyPressed);
+			setMoveStack(updatedMoveStack);
+		};
 	}
 
+	const nextWord =()=>{
+		if(moveStack.length!=0){
+			setCurrentChar(0);
+			setCurrentWord(prev=>prev+1);
+		}
+	}
+	const isCorrectWord=()=>{
+		let correctWord = '';
+		wordSet[currentWord].forEach(char=> {
+			correctWord = correctWord + char.char
+		});
+		if(moveStack.join('')=== correctWord){
+			return true
+		}else{
+			return false
+		}
+	}
+	const checkMatch=(key)=>{
+		if(key === wordSet[currentWord][currentChar].char){
+			// console.log('character is correct');
+		}	
+	}
+	
+	const isBackspace = (key)=>{
+		if(key==='Backspace'){
+			return true
+		}else{
+			return false
+		}
+	}
+	const isCharacter = (key)=>{
+		if(key.length ===1 && (key!= ' ')){
+			return true
+		}else{
+			return false
+		}
+	}
+	let wordSetDisplay = wordSet.map(
+		(entry,i)=>{
+			return <Word>
+			{entry.map(
+				(char,j)=>{
+					return <Character
+						isActive={i===currentWord && j=== currentChar}
+						isCorrect={char.isCorrect}
+						children={char.char}
+					/>
+				}
+			)}
+			</Word>
+		}
+	);
 	return(
-		<div 
-			tabIndex={0}
-			id="typist"
-			style={style} 
-			onKeyDown ={handleKeyDown}
-		>	
+		<>
+		<div
+			onKeyDown={(event)=>{handleKeyDown(event)}}
+			tabIndex ={1}
+			style={{border: '1px solid gray', width: '500px', height:'500px'}}
+		>
 			{wordSetDisplay}
 		</div>
-	)	
+		</>
+	)
 }
-
 
 export {Game};
