@@ -19,31 +19,35 @@ const Game = ()=>{
 	}, []);
 	useEffect(()=>{
 		// console.log('curr char:', currentChar, moveStack);
-		console.log('word score: ', score);
+		// console.log('currentChar', currentChar);
+		// console.log('currentChar', currentChar);
 	});
 	const handleKeyDown = (event)=>{
 		const key = event.key;
 		// ! REFACTOR ON WORDSET UPDATE
-		if(isCharacter(key) && isNotExceeding(key)){
-			if(checkMatch(key)){
-				let updatedWordSet = [...wordSet];
-				updatedWordSet[currentWord][currentChar].isCorrect = true;
-				setWordSet(updatedWordSet);
-			}else{
-				let updatedWordSet = [...wordSet];
-				updatedWordSet[currentWord][currentChar].isCorrect = true;
-				setWordSet(updatedWordSet);
+		if(isCharacter(key) && isNotExceeding()){
+			if(currentChar< wordSet[currentWord].length){
+				if(checkMatch(key)){
+					let updatedWordSet = [...wordSet];
+					updatedWordSet[currentWord][currentChar].isCorrect = true;
+					setWordSet(updatedWordSet);
+				}else{
+					let updatedWordSet = [...wordSet];
+					updatedWordSet[currentWord][currentChar].isCorrect = false;
+					setWordSet(updatedWordSet);
+				}
+				handleMoveStack(key);
 			}
-			checkMatch(key);
-			handleMoveStack(key);
 			setCurrentChar(prev=> prev + 1);
-		}else if(isBackspace(key) && isNotExceeding(key)){
-			let updatedWordSet = [...wordSet];
-			updatedWordSet[currentWord][currentChar].isCorrect = null;
-			setWordSet(updatedWordSet);
-			handleMoveStack(key);
+		}else if(isBackspace(key) && currentChar>0){
+			if(currentChar< wordSet[currentWord].length){
+				let updatedWordSet = [...wordSet];
+				updatedWordSet[currentWord][currentChar].isCorrect = null;
+				setWordSet(updatedWordSet);
+				handleMoveStack(key);
+			}
 			setCurrentChar(prev=>prev-1);
-		}else if(key=== ' ' && isNotExceeding(key)){
+		}else if(key=== ' ' && isNotExceeding()){
 			if(isCorrectWord()){
 				setScore(prev=> prev+1);
 			}
@@ -91,8 +95,10 @@ const Game = ()=>{
 	}
 	const checkMatch=(key)=>{
 		if(key === wordSet[currentWord][currentChar].char){
-			// console.log('character is correct');
-		}	
+			return true
+		}else{
+			return false
+		}
 	}
 	
 	const isBackspace = (key)=>{
