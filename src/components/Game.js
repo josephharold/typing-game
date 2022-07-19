@@ -19,7 +19,7 @@ const Game = ()=>{
 	}, []);
 	useEffect(()=>{
 		// console.log('curr char:', currentChar, moveStack);
-		// console.log('currentChar', currentChar);
+		console.log('currentChar', currentChar);
 		// console.log('currentChar', currentChar);
 	});
 	const handleKeyDown = (event)=>{
@@ -47,7 +47,7 @@ const Game = ()=>{
 				handleMoveStack(key);
 			}
 			setCurrentChar(prev=>prev-1);
-		}else if(key=== ' ' && isNotExceeding()){
+		}else if(key=== ' '){
 			if(isCorrectWord()){
 				setScore(prev=> prev+1);
 			}
@@ -56,7 +56,7 @@ const Game = ()=>{
 		}
 	}
 	const isNotExceeding = ()=>{
-		if(currentChar <= wordSet[currentWord].length && currentChar >=0){
+		if(currentChar < wordSet[currentWord].length && currentChar >=0){
 			return true
 		}else{
 			return false
