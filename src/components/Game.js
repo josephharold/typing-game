@@ -2,7 +2,7 @@ import React ,{useState, useEffect} from 'react';
 import randomWords from 'random-words';
 import { Character } from './character';
 import { Word } from './word';
-const Game = ()=>{
+const Game = (props)=>{
 	const [wordSet, setWordSet] = useState([]);
 	const [currentChar, setCurrentChar] = useState(0);
 	const [currentWord, setCurrentWord] = useState(0);
@@ -23,6 +23,7 @@ const Game = ()=>{
 		// console.log('currentChar', currentChar);
 	});
 	const handleKeyDown = (event)=>{
+		props.handleStart();
 		const key = event.key;
 		// ! REFACTOR ON WORDSET UPDATE
 		if(isCharacter(key) && isNotExceeding()){
