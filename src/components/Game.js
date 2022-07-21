@@ -1,5 +1,4 @@
 import React ,{useState, useEffect} from 'react';
-import randomWords from 'random-words';
 import { Character } from './character';
 import { Word } from './word';
 const Game = (props)=>{
@@ -8,17 +7,18 @@ const Game = (props)=>{
 	const [currentWord, setCurrentWord] = useState(0);
 	const [moveStack, setMoveStack] = useState([]);
 	const [score, setScore] = useState(0);
-	// TODO: add function such that there is no display when the timer runs out
-	// TODO: add function that returns the score and calculates WPM when the timer runs out
 	useEffect(() => {
-		let fetchSet = randomWords(50);
+		console.log('display when triggered');
+		let fetchSet = props.wordSet;
 		let set = fetchSet.map(word=>{
 			return word.split('').map(char=>{
 				return {char: char, isCorrect: null}
 			})
 		})
 		setWordSet(set);
-	}, []);
+		setCurrentWord(0);
+		setCurrentChar(0);
+	}, [props.isFinished,props.wordSet]);
 	const handleKeyDown = (event)=>{
 		props.handleStart();
 
