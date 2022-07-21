@@ -8,6 +8,8 @@ const Game = (props)=>{
 	const [currentWord, setCurrentWord] = useState(0);
 	const [moveStack, setMoveStack] = useState([]);
 	const [score, setScore] = useState(0);
+	// TODO: add function such that there is no display when the timer runs out
+	// TODO: add function that returns the score and calculates WPM when the timer runs out
 	useEffect(() => {
 		let fetchSet = randomWords(50);
 		let set = fetchSet.map(word=>{
@@ -17,13 +19,9 @@ const Game = (props)=>{
 		})
 		setWordSet(set);
 	}, []);
-	useEffect(()=>{
-		// console.log('curr char:', currentChar, moveStack);
-		console.log('currentChar', currentChar);
-		// console.log('currentChar', currentChar);
-	});
 	const handleKeyDown = (event)=>{
 		props.handleStart();
+
 		const key = event.key;
 		// ! REFACTOR ON WORDSET UPDATE
 		if(isCharacter(key) && isNotExceeding()){
@@ -63,7 +61,6 @@ const Game = (props)=>{
 			return false
 		}
 	}
-
 	const handleMoveStack = (keyPressed)=>{
 		let updatedMoveStack = [...moveStack];
 		if(keyPressed === ' '){
@@ -138,7 +135,7 @@ const Game = (props)=>{
 			tabIndex ={1}
 			style={{border: '1px solid gray', width: '500px', height:'500px'}}
 		>
-			{wordSetDisplay}
+			{props.isFinished===true ? 'isfinished': wordSetDisplay}
 		</div>
 		</>
 	)

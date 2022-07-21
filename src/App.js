@@ -4,11 +4,23 @@ import Timer from './components/timer';
 // import {Game} from './components/sample';
 const App = (props)=>{
 	const [isActive, setIsActive] = useState(false);
-
-	const handleIsActive = ()=>{
+	const [isFinished, setIsFinished] = useState(false);
+	// TODO: add function such that component receives score from game component, and calculates WPM
+	const handleStart = ()=>{
 		console.log('handleACtive is triggered');
-		if(isActive===false){
+		if(isActive===false && isFinished===false){
 			setIsActive(true);
+			setIsFinished(false);
+		}
+	}
+	const reset = ()=>{
+		setIsActive(false);
+		setIsFinished(false);
+	}
+	const handleIsFinished = ()=>{
+		if(isActive===true && isFinished===false){
+			setIsFinished(true);
+			setIsActive(false);
 		}
 	}
 	return(
@@ -16,11 +28,13 @@ const App = (props)=>{
 	<h1>hello this is a react app</h1>
 	<Timer
 		isActive ={isActive}	
-		turnOff = {()=>{setIsActive(false)}}
+		setIsFinished = {()=>{handleIsFinished()}}
 	/>
 	<Game
-		handleStart={()=>{handleIsActive()}}	
+		handleStart={()=>{handleStart()}}	
+		isFinished = {isFinished}
 	/>
+	<button onClick={()=>{reset()}}>restart</button>
 	</>
 	)
 }

@@ -3,14 +3,6 @@ import React, { useState, useEffect } from 'react';
 const Timer = (props) => {
   const [seconds, setSeconds] = useState(30);
   const [isActive, setIsActive] = useState(false);
-
-  const onStart=()=>{
-    if(props.isActive ===true){
-      setIsActive(true);
-    }else{
-      setIsActive(false);
-    }
-  }
   function reset() {
     setSeconds(30);
     setIsActive(false);
@@ -26,11 +18,15 @@ const Timer = (props) => {
       clearInterval(interval);
     } else if(isActive && seconds ===0){
       clearInterval(interval);
-      props.turnOff();
+      props.setIsFinished();
     }
     return () => clearInterval(interval);
   });
-	
+  useEffect(()=>{
+    if(seconds === 0){
+      reset();
+    }
+  },[seconds])
   return (
     <div className="app">
       <div className="time">
