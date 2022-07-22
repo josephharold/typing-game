@@ -1,3 +1,4 @@
+import words from 'random-words';
 import React ,{useState, useEffect} from 'react';
 import { Character } from './character';
 import { Word } from './word';
@@ -6,7 +7,6 @@ const Game = (props)=>{
 	const [currentChar, setCurrentChar] = useState(0);
 	const [currentWord, setCurrentWord] = useState(0);
 	const [moveStack, setMoveStack] = useState([]);
-	const [score, setScore] = useState(0);
 	useEffect(() => {
 		console.log('display when triggered');
 		let fetchSet = props.wordSet;
@@ -18,7 +18,16 @@ const Game = (props)=>{
 		setWordSet(set);
 		setCurrentWord(0);
 		setCurrentChar(0);
+		console.log('hello');
 	}, [props.isFinished,props.wordSet]);
+	useEffect(()=>{
+		//FLATTEN ARRAY
+		//FILTER ARRAY AND RETURN ONLY CORRECT CHARACTERS 
+		let flattenedArray = [...wordSet].flat(); 
+		flattenedArray=flattenedArray.filter((char)=>{return char.isCorrect===true});
+		let numOfCorrectChar = flattenedArray.length;
+		props.handleScore(numOfCorrectChar);
+	},[currentWord]);
 	const handleKeyDown = (event)=>{
 		props.handleStart();
 
@@ -48,7 +57,7 @@ const Game = (props)=>{
 			setCurrentChar(prev=>prev-1);
 		}else if(key=== ' '){
 			if(isCorrectWord()){
-				setScore(prev=> prev+1);
+				props.handleScore();
 			}
 			nextWord();
 			handleMoveStack(key);
