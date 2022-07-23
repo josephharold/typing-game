@@ -29,6 +29,9 @@ const Game = (props)=>{
 		props.handleScore(numOfCorrectChar);
 	},[currentWord]);
 	const handleKeyDown = (event)=>{
+		console.log('wordSet:',wordSet.length);
+		console.log('current word:', currentWord);
+		console.log('currentChar:', currentChar);
 		props.handleStart();
 
 		const key = event.key;
@@ -47,7 +50,7 @@ const Game = (props)=>{
 				handleMoveStack(key);
 			}
 			setCurrentChar(prev=> prev + 1);
-		}else if(isBackspace(key) && currentChar>0){
+		}else if(isBackspace(key) && currentChar>0 && currentWord < wordSet.length){
 			if(currentChar< wordSet[currentWord].length){
 				let updatedWordSet = [...wordSet];
 				updatedWordSet[currentWord][currentChar].isCorrect = null;
@@ -55,7 +58,7 @@ const Game = (props)=>{
 				handleMoveStack(key);
 			}
 			setCurrentChar(prev=>prev-1);
-		}else if(key=== ' '){
+		}else if(key=== ' ' && currentWord < wordSet.length){
 			if(isCorrectWord()){
 				props.handleScore();
 			}
@@ -64,7 +67,7 @@ const Game = (props)=>{
 		}
 	}
 	const isNotExceeding = ()=>{
-		if(currentChar < wordSet[currentWord].length && currentChar >=0){
+		if(currentChar < wordSet[currentWord].length && currentChar >=0 && currentWord < wordSet.length){
 			return true
 		}else{
 			return false
