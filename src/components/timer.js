@@ -30,10 +30,13 @@ const Timer = (props) => {
     setIsActive(props.isActive);
   },[props.isActive, props.setIsFinished])
   return (
-    <div className="app">
-      <div className="time">
-        {seconds}s
-      </div>
+    <div className="w-1/12">
+      <span>
+        {seconds}
+      </span>
+      <span>
+        s
+      </span>
     </div>
   );
 };

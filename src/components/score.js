@@ -11,11 +11,7 @@ const Score = (props)=>{
 	},[props.seconds]);
 	return(
 		<>
-		<div>
-			<span>character score: </span>
-			<span>{props.characterScore}</span>
-		</div>
-		<div>
+		<div className="flex flex-row justify-between w-1/12">
 			<span>wpm:</span>
 			<span>{wpm}</span>
 		</div>

@@ -11,7 +11,7 @@ const App = (props)=>{
 	const [seconds, setSeconds] = useState(0);
 	// TODO: add function such that component receives score from game component, and calculates WPM
 	useState(()=>{
-		setWordSet(randomWords(10));
+		setWordSet(randomWords(40));
 	},[isActive, isFinished]);
 
 	const handleIsFinished = ()=>{
@@ -27,7 +27,7 @@ const App = (props)=>{
 		}
 	}
 	const reset = ()=>{
-		let rand = randomWords(10);
+		let rand = randomWords(40);
 		setIsActive(false);
 		setIsFinished(false);
 		setWordSet(rand);
@@ -35,25 +35,29 @@ const App = (props)=>{
 	}
 	return(
 	<>
-	<h1>hello this is a react app</h1>
-	<Timer
-		isActive ={isActive}	
-		isFinished = {isFinished}
-		setIsFinished = {()=>{handleIsFinished()}}
-		onTick = {(number)=>{setSeconds(number)}}
-	/>
-	<Score
-		characterScore={charScore}
-		seconds={seconds}
-		length={30}
-	/>
-	<Game
-		handleStart={()=>{handleStart()}}	
-		handleScore={(number)=>{setCharScore(number)}}
-		isFinished = {isFinished}
-		wordSet = {wordSet}
-	/>
-	<button onClick={()=>{reset()}}>restart</button>
+	<div className="flex flex-col justify-center items-center">
+		<h1>Typing Game</h1>
+		<div className='flex flex-row justify-start w-3/4 px-8 text-2xl'> 
+			<Timer
+				isActive ={isActive}	
+				isFinished = {isFinished}
+				setIsFinished = {()=>{handleIsFinished()}}
+				onTick = {(number)=>{setSeconds(number)}}
+			/>
+			<Score
+				characterScore={charScore}
+				seconds={seconds}
+				length={30}
+			/>
+		</div>
+		<Game
+			handleStart={()=>{handleStart()}}	
+			handleScore={(number)=>{setCharScore(number)}}
+			isFinished = {isFinished}
+			wordSet = {wordSet}
+		/>
+		<button className="w-2/12 py-2 border border-green-500 rounded-xl" onClick={()=>{reset()}}>restart</button>
+	</div>
 	</>
 	)
 }

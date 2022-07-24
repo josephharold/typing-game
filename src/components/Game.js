@@ -1,4 +1,3 @@
-import words from 'random-words';
 import React ,{useState, useEffect} from 'react';
 import { Character } from './character';
 import { Word } from './word';
@@ -67,7 +66,8 @@ const Game = (props)=>{
 		}
 	}
 	const isNotExceeding = ()=>{
-		if(currentChar < wordSet[currentWord].length && currentChar >=0 && currentWord < wordSet.length){
+		if(currentWord < wordSet.length){
+			if(currentChar< wordSet[currentWord].length && currentChar>=0 )
 			return true
 		}else{
 			return false
@@ -145,7 +145,7 @@ const Game = (props)=>{
 		<div
 			onKeyDown={(event)=>{handleKeyDown(event)}}
 			tabIndex ={1}
-			style={{border: '1px solid gray', width: '500px', height:'500px'}}
+			className="flex flex-row justify-between flex-wrap p-8 w-3/4 text-3xl gap-y-5"
 		>
 			{props.isFinished===true ? 'isfinished': wordSetDisplay}
 		</div>

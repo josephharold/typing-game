@@ -4,11 +4,11 @@ import React from 'react';
 const Word=(props)=>{
 	return(
 		<>
-		<span	
+		<div	
 			style={{marginRight: '10px'}}
 		>
 			{props.children}
-		</span>	
+		</div>	
 		</>	
 	)
 }
