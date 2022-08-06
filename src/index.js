@@ -8,7 +8,9 @@ import './index.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App/>
+    <div className='dark:dark-base'>
+      <App/>
+    </div>
   </React.StrictMode>
 );
 

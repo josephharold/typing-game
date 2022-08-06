@@ -3,6 +3,7 @@ import { Game } from './components/Game';
 import Timer from './components/timer';
 import randomWords from 'random-words';
 import { Score } from './components/score';
+import { DarkMode } from './components/darkMode';
 const App = (props)=>{
 	const [isActive, setIsActive] = useState(false);
 	const [isFinished, setIsFinished] = useState(false);
@@ -13,7 +14,6 @@ const App = (props)=>{
 	useState(()=>{
 		setWordSet(randomWords(40));
 	},[isActive, isFinished]);
-
 	const handleIsFinished = ()=>{
 		if(isActive===true && isFinished===false){
 			setIsFinished(true);
@@ -35,9 +35,11 @@ const App = (props)=>{
 	}
 	return(
 	<>
-	<div className="flex flex-col justify-center items-center">
-		<h1>Typing Game</h1>
-		<div className='flex flex-row justify-start w-3/4 px-8 text-2xl'> 
+	<div className="flex flex-col bg-light-base dark:bg-dark-base justify-center min-h-screen items-center pt-24">
+	
+		<h1 className="text-primary font-bold text-light-primary text-5xl mb-8 dark:">Typing Game</h1>
+		<div className='bg-slate-200 dark:bg-dark-base2 text-light-tertiary rounded-lg flex flex-row justify-start w-3/4 py-2 px-8 text-2xl'> 
+			<DarkMode/>
 			<Timer
 				isActive ={isActive}	
 				isFinished = {isFinished}
@@ -56,7 +58,7 @@ const App = (props)=>{
 			isFinished = {isFinished}
 			wordSet = {wordSet}
 		/>
-		<button className="w-2/12 py-2 border border-green-500 rounded-xl" onClick={()=>{reset()}}>restart</button>
+		<button className="bg-light-primary text-light-base w-2/12 py-2 rounded-xl" onClick={()=>{reset()}}>restart</button>
 	</div>
 	</>
 	)
