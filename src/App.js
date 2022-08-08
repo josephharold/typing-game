@@ -35,11 +35,10 @@ const App = (props)=>{
 	}
 	return(
 	<>
-	<div className="flex flex-col bg-light-base dark:bg-dark-base justify-center min-h-screen items-center pt-24">
+	<div className="flex flex-col duration-300 bg-light-base dark:bg-dark-base justify-center min-h-screen items-center pt-24">
 	
 		<h1 className="text-primary font-bold text-light-primary text-5xl mb-8 dark:">Typing Game</h1>
-		<div className='bg-slate-200 dark:bg-dark-base2 text-light-tertiary rounded-lg flex flex-row justify-start w-3/4 py-2 px-8 text-2xl'> 
-			<DarkMode/>
+		<div className='bg-slate-200 dark:bg-dark-base2 text-light-tertiary rounded-lg flex flex-row justify-between w-3/4 py-2 px-8 text-2xl'> 
 			<Timer
 				isActive ={isActive}	
 				isFinished = {isFinished}
@@ -51,6 +50,7 @@ const App = (props)=>{
 				seconds={seconds}
 				length={30}
 			/>
+			<DarkMode/>
 		</div>
 		<Game
 			handleStart={()=>{handleStart()}}	
