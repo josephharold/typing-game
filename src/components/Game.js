@@ -1,4 +1,4 @@
-import React ,{useState, useEffect} from 'react';
+import React ,{useState, useEffect, useRef} from 'react';
 import { Character } from './character';
 import { Word } from './word';
 const Game = (props)=>{
@@ -145,9 +145,9 @@ const Game = (props)=>{
 		<div
 			onKeyDown={(event)=>{handleKeyDown(event)}}
 			tabIndex ={1}
-			className="flex flex-row justify-between flex-wrap p-8 w-3/4 text-3xl gap-y-5"
+			className={`flex flex-row text-justify justify-center text-slate-500 flex-wrap p-8 w-3/4 text-3xl gap-y-5`}
 		>
-			{props.isFinished===true ? 'isfinished': wordSetDisplay}
+			{props.isFinished===true ? 'TIME IS UP!': wordSetDisplay}
 		</div>
 		</>
 	)
