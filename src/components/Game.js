@@ -6,6 +6,15 @@ const Game = (props)=>{
 	const [currentChar, setCurrentChar] = useState(0);
 	const [currentWord, setCurrentWord] = useState(0);
 	const [moveStack, setMoveStack] = useState([]);
+	const [isFocused, setIsFocused] = useState(true);
+	const ref = useRef();
+
+	useEffect(()=>{
+		if(ref.current){
+			setIsFocused(true);
+			ref.current.focus();		
+		}
+	},[props.wordSet])
 	useEffect(() => {
 		console.log('display when triggered');
 		let fetchSet = props.wordSet;
@@ -145,7 +154,8 @@ const Game = (props)=>{
 		<div
 			onKeyDown={(event)=>{handleKeyDown(event)}}
 			tabIndex ={1}
-			className={`flex flex-row text-justify justify-center text-slate-500 flex-wrap p-8 w-3/4 text-3xl gap-y-5`}
+			className={`${isFocused === true ? '': 'blur-sm'} flex flex-row text-justify justify-between text-slate-500 flex-wrap p-8 w-3/4 text-3xl gap-y-5`}
+			ref={ref}
 		>
 			{props.isFinished===true ? 'TIME IS UP!': wordSetDisplay}
 		</div>
